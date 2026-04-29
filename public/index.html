@@ -75,7 +75,7 @@
     .hero-bg {
       position: absolute;
       inset: 0;
-      background-image: url('https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1920&q=85');
+      background-image: url('https://images.unsplash.com/photo-1600706844152-3a29fce003b7?auto=format&fit=crop&w=1920&q=85');
       background-size: cover;
       background-position: center;
       transform: scale(1.05);
@@ -313,6 +313,7 @@
       font-size: 0.88rem;
       color: var(--sub);
       line-height: 1.8;
+      word-break: keep-all;
     }
 
     /* ── WHY ── */
@@ -383,6 +384,7 @@
       font-size: 0.95rem;
       line-height: 2;
       color: var(--sub);
+      word-break: keep-all;
     }
 
     /* ── KIT CARDS ── */
@@ -534,14 +536,14 @@
     <div class="hero-bg" id="heroBg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <span class="hero-badge">베타 운영 중 · 1일 1팀</span>
+      <span class="hero-badge">베타 운영중 · 하루 1팀 제한</span>
       <h1 class="hero-title">
         <span>폰 없이</span>
         떠나는 여행
       </h1>
       <p class="hero-sub">
         폰을 맡기면 지도와 나침반을 드려요.<br />
-        알림 없이, 목적지 없이, 진정한 휴식을 즐기세요.
+        알림 없이, 연락 없이, 진정한 휴식을 즐기세요.
       </p>
       <div class="hero-cta">
         <a href="https://forms.gle/dehPKDbJn2e2VwFD8" target="_blank" class="btn-white">신청하기</a>
@@ -572,6 +574,33 @@
     </div>
   </div>
 
+  <!-- ABOUT -->
+  <section class="section">
+    <div class="inner">
+      <p class="label reveal">이런 여행이에요</p>
+      <div>
+        <div class="about-text">
+          <h2 class="about-title reveal">폰을 맡기면,<br />키트를 드려요.</h2>
+          <p class="about-body reveal">
+            아날로그 여행은 여행자의 폰을 보관하고,
+            대신 나침반, 종이 지도, 필름 카메라가 담긴
+            아날로그 키트를 드려요.<br /><br />
+            지도앱 없이 길을 찾고, 연락 없이 하루를 보내는 여행이에요.
+          </p>
+          <div class="lockbox-section reveal">
+            <div class="lockbox-img-wrap">
+              <img src="https://shop-phinf.pstatic.net/20240925_50/1727233362385BIVTg_JPEG/1795296508841663_1571923429.jpg?type=o1000" alt="폰 잠금 파우치" />
+            </div>
+            <div class="lockbox-text">
+              <p class="lockbox-title">폰은 안심하고 맡겨주세요.</p>
+              <p class="lockbox-desc">휴대폰을 감옥에 넣고 열쇠는 직접 들고 가시면 돼요.<br />안전하게 보관하고 있다가 돌려드릴게요.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- WHY -->
   <section class="section">
     <div class="inner">
@@ -594,7 +623,8 @@
           알림을 끄려고 폰을 켰다가 인스타를 30분 본 적 있으신가요.<br />
           여행 가서도 사진 찍고 업로드하느라 정작 그 순간을 못 즐긴 적 있으신가요.<br /><br />
           아날로그 여행은 딱 하루, 폰을 없애드려요.<br />
-          억지로 끄는 게 아니라, 저희가 대신 들고 있을게요.
+          억지로 끄는 게 아니라, 저희가 대신 맡아둘게요.<br />
+          알림 대신 새소리를, 카톡 대신 옆 사람에게 집중할 수 있게요.
         </p>
       </div>
     </div>
@@ -609,87 +639,42 @@
           <div class="tl-time">10:00</div>
           <div class="tl-content">
             <p class="tl-title">만남 & 교환</p>
-            <p class="tl-desc">약속 장소에서 폰을 맡기고, 아날로그 키트를 받아요.<br />나침반 쓰는 법 간단히 알려드려요.</p>
+            <p class="tl-desc">약속 장소에서 폰을 맡기고, 아날로그 키트를 받아요.</p>
           </div>
         </div>
         <div class="tl-item reveal">
           <div class="tl-time">10:30</div>
           <div class="tl-content">
             <p class="tl-title">지도 펼치기</p>
-            <p class="tl-desc">종이 지도를 보고 어디로 갈지 정해요.<br />틀려도 괜찮아요. 그게 시작이에요.</p>
+            <p class="tl-desc">종이 지도를 보고 어디로 갈지 정해요.</p>
           </div>
         </div>
         <div class="tl-item reveal">
           <div class="tl-time">오전 내내</div>
           <div class="tl-content">
             <p class="tl-title">골목 걷기</p>
-            <p class="tl-desc">네이버 지도 없이 걸어요. 처음엔 어색하다가,<br />10분쯤 지나면 주변이 보이기 시작해요.</p>
+            <p class="tl-desc">네이버 지도 없이 걸어요.</p>
           </div>
         </div>
         <div class="tl-item reveal">
           <div class="tl-time">점심</div>
           <div class="tl-content">
             <p class="tl-title">미션 카드 뽑기</p>
-            <p class="tl-desc">오늘의 미션을 뽑아요. "간판 없는 식당 찾기",<br />"처음 보는 사람한테 말 걸기" 같은 것들이에요.</p>
+            <p class="tl-desc">오늘의 미션을 뽑아요.</p>
           </div>
         </div>
         <div class="tl-item reveal">
           <div class="tl-time">오후</div>
           <div class="tl-content">
             <p class="tl-title">일회용 필름 카메라</p>
-            <p class="tl-desc">찍고 싶은 순간을 필름에 담아요.<br />바로 볼 수 없는 사진이 설렘을 더할거예요.</p>
+            <p class="tl-desc">찍고 싶은 순간을 필름에 담아요.</p>
           </div>
         </div>
         <div class="tl-item reveal">
           <div class="tl-time">마무리</div>
           <div class="tl-content">
             <p class="tl-title">키트 반납 & 폰 돌려받기</p>
-            <p class="tl-desc">오늘 하루, 알림 대신 바람 소리를 들었잖아요.<br />그 경험이 돌아온 일상을 조금 더 특별하게 해줄거예요.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- GIFT SECTION -->
-  <section class="section">
-    <div class="inner">
-      <div class="gift-block reveal">
-        <p class="gift-quote">"길 위의 선물"</p>
-        <p class="gift-body">
-          어플만 보고 목적지로 직진했다면 절대 경험하지 못했을 순간들이 있어요.<br /><br />
-          발길 닿는 대로 들어간 식당에서 우연히 최고의 맛을 만나거나,
-          SNS에는 없는 골목에서 소소한 행복을 발견하는 것.<br /><br />
-          현지에서 만난 사람들과 대화로 문제를 해결하고,
-          우연한 여행의 즐거움을 찾는 것.<br /><br />
-          실패도, 헤맴도 — 다 여행의 일부예요.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section class="section">
-    <div class="inner">
-      <p class="label reveal">이런 여행이에요</p>
-      <div>
-        <div class="about-text">
-          <h2 class="about-title reveal">폰을 맡기면,<br />키트를 드려요.</h2>
-          <p class="about-body reveal">
-            아날로그 여행은 여행자의 폰을 보관하고,
-            대신 나침반, 종이 지도, 일회용 필름 카메라가 담긴
-            아날로그 키트를 드려요.<br /><br />
-            네이버 지도 없이 길 찾고,
-            카카오톡 없이 하루를 보내보는 여행이에요.
-          </p>
-          <div class="lockbox-section reveal">
-            <div class="lockbox-img-wrap">
-              <img src="https://shop-phinf.pstatic.net/20240925_50/1727233362385BIVTg_JPEG/1795296508841663_1571923429.jpg?type=o1000" alt="폰 잠금 파우치" />
-            </div>
-            <div class="lockbox-text">
-              <p class="lockbox-title">폰은 감옥에 가둬요.</p>
-              <p class="lockbox-desc">감옥에 넣고 열쇠는 직접 들고 가면 돼요.<br />그다음부터는 진짜 여행이에요.</p>
-            </div>
+            <p class="tl-desc">오늘 하루, 알림 대신 바람 소리를 들었잖아요.</p>
           </div>
         </div>
       </div>
@@ -747,30 +732,47 @@
     <p class="photo-band-text">길을 잃어도<br />돼요.</p>
   </div>
 
+  <!-- GIFT SECTION -->
+  <section class="section">
+    <div class="inner">
+      <div class="gift-block reveal">
+        <p class="gift-quote">"길 위의 선물"</p>
+        <p class="gift-body">
+          발길 닿는 대로 들어간 식당에서 최고의 맛을 만나거나,
+          SNS에는 없는 골목에서 소소한 행복을 발견하는 것.<br /><br />
+          현지인 한 마디가 오늘 하루의 일정을 바꾸고,<br />
+          지나가는 길에 만난 풍경에 감동하는 순간.<br /><br />
+          잘못된 길도, 낭비된 시간도 없어요.<br />
+          그 모든 순간이 모여 오늘의 여행이 완성될테니깐요.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- HOW IT WORKS -->
   <section class="section">
     <div class="inner">
-      <p class="label reveal">어떻게 하면 돼요?</p>
+      <p class="label reveal">어떻게 신청할 수 있나요?</p>
       <div>
         <div class="step reveal">
           <span class="step-num">01</span>
           <div>
             <p class="step-title">폼 작성</p>
-            <p class="step-desc">아래 버튼으로 폼 작성하시면 돼요. 날짜, 인원, 연락처만 적으면 확인 후 연락드려요.</p>
+            <p class="step-desc">아래 버튼으로 폼 작성하시면 돼요.<br />날짜, 인원, 연락처만 적으면 확인 후 연락드릴게요.</p>
           </div>
         </div>
         <div class="step reveal">
           <span class="step-num">02</span>
           <div>
             <p class="step-title">만나서 교환</p>
-            <p class="step-desc">약속 장소에서 폰 맡기고 키트 받으면 돼요. 저희가 폰 잘 보관하고 있을게요.</p>
+            <p class="step-desc">약속 장소에서 폰을 맡기고 키트를 받으면 돼요.<br />저희가 폰은 안전하게 보관하고 있을게요.</p>
           </div>
         </div>
         <div class="step reveal">
           <span class="step-num">03</span>
           <div>
             <p class="step-title">그냥 떠나면 돼요</p>
-            <p class="step-desc">지도 펼치고 나침반 들고 걷기 시작하면 됩니다. 길 잃어도 그게 여행이에요.</p>
+            <p class="step-desc">지도를 펼치고, 나침반을 들고 걷기 시작하면 돼요.<br />발길이 이끄는 대로 여행을 즐겨보세요.</p>
           </div>
         </div>
       </div>
@@ -780,13 +782,13 @@
   <!-- CTA -->
   <section class="cta-section">
     <h2 class="cta-title reveal">한번 해볼까요?</h2>
-    <p class="cta-sub reveal">지금 베타 신청 받고 있어요 · 소수 인원만 가능해요</p>
+    <p class="cta-sub reveal">지금 베타 신청 받고 있어요 · 하루에 1팀만 신청 가능해요</p>
     <a href="https://forms.gle/dehPKDbJn2e2VwFD8" target="_blank" class="btn-dark reveal">신청하러 가기</a>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <span>아날로그 여행 · 아날로그 여행</span>
+    <span>폰 없이 떠나는 여행</span>
     <span>© 2025 아날로그 여행</span>
   </footer>
 
