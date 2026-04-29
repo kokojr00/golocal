@@ -1,89 +1,147 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>고로컬 — 아날로그 여행</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .bebas { font-family: 'Bebas Neue', sans-serif; }
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-black text-white">
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/12.12.1/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/12.12.1/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+  <!-- HERO -->
+  <section class="min-h-screen flex flex-col justify-center px-6 md:px-16 lg:px-24">
+    <div class="max-w-5xl">
+      <p class="text-gray-400 tracking-widest text-sm mb-6 uppercase">GOLOCAL · 아날로그 여행</p>
+      <h1 class="bebas text-7xl md:text-[10rem] lg:text-[13rem] leading-none tracking-tight">
+        PUT DOWN<br />YOUR PHONE.
+      </h1>
+      <p class="mt-8 text-xl md:text-2xl text-gray-300 max-w-xl leading-relaxed">
+        스마트폰 없이 떠나는 여행.<br />
+        지도와 나침반만 들고, 진짜 길을 찾아보세요.
+      </p>
+      <a
+        href="https://forms.gle/dehPKDbJn2e2VwFD8"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block mt-10 px-10 py-4 bg-white text-black font-bold text-lg tracking-wide hover:bg-gray-200 transition-colors"
+      >
+        지금 신청하기 →
+      </a>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+  </section>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+  <!-- 서비스 소개 -->
+  <section class="py-24 px-6 md:px-16 lg:px-24 border-t border-gray-800">
+    <div class="max-w-4xl">
+      <p class="text-gray-500 tracking-widest text-xs uppercase mb-4">About</p>
+      <h2 class="bebas text-5xl md:text-7xl mb-8">폰을 맡기면,<br />우리가 대신 길을 드립니다.</h2>
+      <p class="text-gray-400 text-lg leading-relaxed max-w-2xl">
+        고로컬은 여행자의 스마트폰을 잠시 맡아두고,
+        종이 지도와 나침반, 미션카드로 가득 찬 아날로그 키트를 드립니다.
+        길을 잃어도 괜찮아요. 그게 진짜 여행이니까요.
+      </p>
+    </div>
+  </section>
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+  <!-- 키트 구성품 -->
+  <section class="py-24 px-6 md:px-16 lg:px-24 border-t border-gray-800">
+    <div class="max-w-4xl">
+      <p class="text-gray-500 tracking-widest text-xs uppercase mb-4">Kit</p>
+      <h2 class="bebas text-5xl md:text-7xl mb-12">아날로그 여행 키트</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="border border-gray-700 p-6">
+          <div class="text-4xl mb-4">🧭</div>
+          <p class="font-bold text-lg">나침반</p>
+          <p class="text-gray-500 text-sm mt-1">방향을 잃을 자유</p>
+        </div>
+        <div class="border border-gray-700 p-6">
+          <div class="text-4xl mb-4">🗺️</div>
+          <p class="font-bold text-lg">종이 지도</p>
+          <p class="text-gray-500 text-sm mt-1">손으로 그리는 여정</p>
+        </div>
+        <div class="border border-gray-700 p-6">
+          <div class="text-4xl mb-4">🎴</div>
+          <p class="font-bold text-lg">미션 카드</p>
+          <p class="text-gray-500 text-sm mt-1">우연을 만나는 방법</p>
+        </div>
+        <div class="border border-gray-700 p-6">
+          <div class="text-4xl mb-4">📓</div>
+          <p class="font-bold text-lg">여행 노트</p>
+          <p class="text-gray-500 text-sm mt-1">기록으로 남기는 순간</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 이용 방법 -->
+  <section class="py-24 px-6 md:px-16 lg:px-24 border-t border-gray-800">
+    <div class="max-w-4xl">
+      <p class="text-gray-500 tracking-widest text-xs uppercase mb-4">How it works</p>
+      <h2 class="bebas text-5xl md:text-7xl mb-12">이렇게 떠납니다</h2>
+      <div class="space-y-10">
+        <div class="flex gap-8 items-start">
+          <span class="bebas text-6xl text-gray-700 leading-none">01</span>
+          <div>
+            <p class="font-bold text-xl mb-1">신청서 작성</p>
+            <p class="text-gray-400">구글폼으로 날짜, 인원, 연락처를 입력해주세요.</p>
+          </div>
+        </div>
+        <div class="flex gap-8 items-start">
+          <span class="bebas text-6xl text-gray-700 leading-none">02</span>
+          <div>
+            <p class="font-bold text-xl mb-1">키트 수령 & 폰 보관</p>
+            <p class="text-gray-400">당일 만남 장소에서 아날로그 키트를 받고, 폰을 저희에게 맡깁니다.</p>
+          </div>
+        </div>
+        <div class="flex gap-8 items-start">
+          <span class="bebas text-6xl text-gray-700 leading-none">03</span>
+          <div>
+            <p class="font-bold text-xl mb-1">아날로그 여행 출발</p>
+            <p class="text-gray-400">지도와 나침반만 들고 떠나세요. 길을 잃어도 괜찮습니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 가격/일정 -->
+  <section class="py-24 px-6 md:px-16 lg:px-24 border-t border-gray-800">
+    <div class="max-w-4xl">
+      <p class="text-gray-500 tracking-widest text-xs uppercase mb-4">Beta</p>
+      <h2 class="bebas text-5xl md:text-7xl mb-6">지금 베타 신청 받는 중</h2>
+      <p class="text-gray-400 text-lg max-w-xl leading-relaxed">
+        고로컬은 현재 소수 인원을 대상으로 베타 운영 중입니다.<br />
+        신청해주시면 일정과 세부 내용을 안내드려요.
+      </p>
+    </div>
+  </section>
+
+  <!-- 하단 CTA -->
+  <section class="py-32 px-6 md:px-16 lg:px-24 border-t border-gray-800 text-center">
+    <h2 class="bebas text-6xl md:text-9xl mb-8">떠날 준비 됐나요?</h2>
+    <a
+      href="https://forms.gle/dehPKDbJn2e2VwFD8"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-block px-14 py-5 bg-white text-black font-bold text-xl tracking-wide hover:bg-gray-200 transition-colors"
+    >
+      지금 신청하기 →
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-10 px-6 md:px-16 border-t border-gray-800 text-gray-600 text-sm flex justify-between items-center">
+    <span class="bebas text-xl text-gray-500">GOLOCAL</span>
+    <span>© 2025 고로컬. All rights reserved.</span>
+  </footer>
+
+</body>
 </html>
