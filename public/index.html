@@ -258,6 +258,7 @@
       line-height: 1.9;
       color: var(--sub);
       margin-bottom: 2.5rem;
+      word-break: keep-all;
     }
     .exchange-row {
       display: flex;
@@ -453,6 +454,7 @@
       font-size: 0.95rem;
       color: var(--sub);
       line-height: 1.8;
+      word-break: keep-all;
     }
     .experience-note {
       margin-top: 3rem;
@@ -488,7 +490,7 @@
     /* ── KIT CARDS ── */
     .kit-card-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
       margin-top: 2rem;
     }
@@ -509,7 +511,7 @@
       margin-bottom: 0.4rem;
     }
     .kit-card-body .kit-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
-    .kit-card-body .kit-desc { font-size: 0.8rem; color: var(--sub); line-height: 1.6; }
+    .kit-card-body .kit-desc { font-size: 0.8rem; color: var(--sub); line-height: 1.6; word-break: keep-all; }
 
     /* ── STEPS ── */
     .step {
@@ -528,7 +530,7 @@
       padding-top: 0.2rem;
     }
     .step-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
-    .step-desc { font-size: 0.88rem; font-weight: 300; color: var(--sub); line-height: 1.75; }
+    .step-desc { font-size: 0.88rem; font-weight: 300; color: var(--sub); line-height: 1.75; word-break: keep-all; }
 
     /* ── PHOTO BAND ── */
     .photo-band {
@@ -825,6 +827,14 @@
             <p class="kit-num">03</p>
             <p class="kit-name">비상연락 휴대폰</p>
             <p class="kit-desc">인터넷 없이 전화·문자만 가능해요</p>
+          </div>
+        </div>
+        <div class="kit-card">
+          <div class="kit-card-img" style="background-image:url('/images/paper.jpg')"></div>
+          <div class="kit-card-body">
+            <p class="kit-num">04</p>
+            <p class="kit-name">지역 설명서</p>
+            <p class="kit-desc">저희 팀원들이 직접 갔다오고 정말 좋은 곳들로 추천드려요</p>
           </div>
         </div>
       </div>
