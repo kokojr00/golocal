@@ -1330,12 +1330,14 @@
   </script>
 
   <script>
-    // ── 설정값 (아래 4줄을 채워주세요) ──
-    const FIREBASE_API_KEY   = 'YOUR_FIREBASE_API_KEY';
+    const FIREBASE_API_KEY   = 'AIzaSyDZQGRfqDBl7doekUr0OXgYidHc0UQDcX0';
     const EMAILJS_PUBLIC_KEY = 'JrMTzD_qzuKHCm_Xn';
     const EMAILJS_SERVICE_ID = 'service_zpwlddp';
     const EMAILJS_TEMPLATE_ID = 'gz99h9x';
     const PROJECT_ID = 'golocal-ffaae';
+
+    // EmailJS 초기화 (페이지 로드 시 1회)
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
     // ── 달력 생성 ──
     (function buildCalendar() {
@@ -1412,10 +1414,9 @@
       const btn = document.getElementById('submitBtn');
       btn.disabled = true; btn.textContent = '신청 중...';
 
-      try {
-        await saveToFirestore('applications', data);
-        await sendEmail(data);
-      } catch(err) { console.warn('백엔드 저장 오류:', err); }
+      // Firestore 저장과 이메일 발송을 독립적으로 실행
+      saveToFirestore('applications', data).catch(err => console.warn('Firestore 오류:', err));
+      sendEmail(data).catch(err => console.warn('이메일 발송 오류:', err));
 
       // 성공 화면 표시
       f.style.display = 'none';
@@ -1438,8 +1439,6 @@
 
     // ── EmailJS 발송 ──
     async function sendEmail(data) {
-      if (EMAILJS_PUBLIC_KEY === 'YOUR_EMAILJS_PUBLIC_KEY') return;
-      emailjs.init(EMAILJS_PUBLIC_KEY);
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
         name: data.name, phone: data.phone, date: data.date,
         participants: data.participants, gender: data.gender,
