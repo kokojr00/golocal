@@ -1414,9 +1414,10 @@
       const btn = document.getElementById('submitBtn');
       btn.disabled = true; btn.textContent = '신청 중...';
 
-      // Firestore 저장과 이메일 발송을 독립적으로 실행
+      // 각각 독립적으로 실행 (하나 실패해도 나머지 동작)
       saveToFirestore('applications', data).catch(err => console.warn('Firestore 오류:', err));
-      sendEmail(data).catch(err => console.warn('이메일 발송 오류:', err));
+      sendFormspree(data).catch(err => console.warn('Formspree 오류:', err));
+      sendEmail(data).catch(err => console.warn('EmailJS 오류:', err));
 
       // 성공 화면 표시
       f.style.display = 'none';
@@ -1424,6 +1425,16 @@
       success.classList.add('show');
       success.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
+
+    // ── Formspree 알림 발송 ──
+    async function sendFormspree(data) {
+      const res = await fetch('https://formspree.io/f/xvzlwwkb', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('Formspree 전송 실패');
+    }
 
     // ── Firestore 저장 ──
     async function saveToFirestore(col, data) {
