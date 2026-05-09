@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>언플러그트립 인스타 카드뉴스</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #1e1e1e;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px;
+      gap: 48px;
+      font-family: 'Pretendard', sans-serif;
+    }
+    h1 {
+      color: #555;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+    /* 외부 컨테이너: 540×675 (1080×1350의 절반) */
+    .card-outer {
+      width: 540px;
+      height: 675px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.04),
+        0 24px 60px rgba(0,0,0,0.55),
+        0 8px 20px rgba(0,0,0,0.3);
+    }
+    /* 내부 카드: 1080×1350 — transform: scale(0.5)으로 축소 */
+    .card-inner {
+      width: 1080px;
+      height: 1350px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: scale(0.5);
+      transform-origin: top left;
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      overflow: hidden;
+      color: #1a1814;
+      background: #f4f1ea;
+    }
+    .card-label {
+      color: #444;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+<h1>UNPLUGGED TRIP — 인스타 카드뉴스</h1>
+
+<div class="card-outer"><div class="card-inner" id="c1"></div></div>
+<p class="card-label">01 · Hook</p>
+
+<div class="card-outer"><div class="card-inner" id="c2"></div></div>
+<p class="card-label">02 · Pain Point</p>
+
+<div class="card-outer"><div class="card-inner" id="c3"></div></div>
+<p class="card-label">03 · The Kit</p>
+
+<div class="card-outer"><div class="card-inner" id="c4"></div></div>
+<p class="card-label">04 · How It Works + CTA</p>
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+/* ── 색상 팔레트 ── */
+const BG     = '#f4f1ea';
+const INK    = '#1a1814';
+const SUB    = '#6b6657';
+const ACCENT = '#a13a1f';
+
+/* ── 필름 그레인 (각 카드 고유 filter id) ── */
+function Grain({ id }) {
+  return (
+    <svg width="100%" height="100%" style={{
+      position: 'absolute', inset: 0,
+      opacity: 0.18, mixBlendMode: 'multiply',
+      pointerEvents: 'none', zIndex: 99,
+    }}>
+      <defs>
+        <filter id={id}>
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+          <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0"/>
+        </filter>
+      </defs>
+      <rect width="100%" height="100%" filter={`url(#${id})`}/>
+    </svg>
+  );
+}
+
+/* ── 공통 헤더 ── */
+function Header() {
+  return (
+    <div style={{
+      position: 'absolute', top: 56, left: 56, right: 56,
+      display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
+      zIndex: 10,
+    }}>
+      <div>
+        <div style={{
+          fontSize: 18, fontWeight: 800, letterSpacing: '0.12em',
+          color: INK, lineHeight: 1.05,
+        }}>UNPLUGGED TRIP</div>
+        <div style={{
+          fontSize: 11, fontWeight: 500, letterSpacing: '0.25em',
+          color: SUB, marginTop: 4,
+        }}>언플러그 트립 · 2026</div>
+      </div>
+      <div style={{
+        transform: 'rotate(8deg)',
+        border: `2px solid ${ACCENT}`,
+        color: ACCENT,
+        padding: '8px 14px',
+        fontSize: 11, fontWeight: 700, letterSpacing: '0.1em',
+      }}>베타 테스트 진행 중</div>
+    </div>
+  );
+}
+
+/* ── 페이지 번호 ── */
+function Pager({ n }) {
+  return (
+    <div style={{
+      position: 'absolute', bottom: 56, right: 56,
+      fontSize: 13, letterSpacing: '0.3em', fontWeight: 600,
+      color: SUB, fontFamily: 'monospace', zIndex: 10,
+    }}>0{n} — 04</div>
+  );
+}
+
+/* ══════════════════════════════════════
+   CARD 1 — Hook
+   상단: 폴라로이드 2장 (빈 공간 최소화)
+   하단: 큰 헤드라인 + 서브카피
+══════════════════════════════════════ */
+function Card1() {
+  return (
+    <div style={{ width: 1080, height: 1350, position: 'relative', background: BG, overflow: 'hidden', fontFamily: "'Pretendard', sans-serif", color: INK }}>
+      <Header/>
+
+      {/* 폴라로이드 컨테이너 — 상단부 전체를 채움 */}
+      <div style={{ position: 'absolute', top: 148, left: 0, right: 0, height: 640, pointerEvents: 'none' }}>
+
+        {/* 왼쪽 폴라로이드 (더 크게) */}
+        <div style={{
+          position: 'absolute', top: 10, left: 72,
+          width: 490, height: 560,
+          background: '#fff',
+          padding: 18, paddingBottom: 70,
+          boxShadow: '0 32px 56px rgba(26,24,20,0.20), 0 8px 18px rgba(26,24,20,0.12)',
+          transform: 'rotate(-5.5deg)',
+        }}>
+          <div style={{
+            width: '100%', height: '100%',
+            backgroundImage: "url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1000&q=80')",
+            backgroundSize: 'cover', backgroundPosition: 'center',
+            filter: 'sepia(0.15) saturate(0.85)',
+          }}/>
+          <div style={{
+            position: 'absolute', bottom: 16, left: 0, right: 0,
+            textAlign: 'center', fontSize: 24, color: SUB,
+            fontFamily: "'Caveat', cursive",
+          }}>오늘, 어디로?</div>
+        </div>
+
+        {/* 오른쪽 폴라로이드 */}
+        <div style={{
+          position: 'absolute', top: 55, right: 52,
+          width: 440, height: 510,
+          background: '#fff',
+          padding: 16, paddingBottom: 62,
+          boxShadow: '0 32px 56px rgba(26,24,20,0.20), 0 8px 18px rgba(26,24,20,0.12)',
+          transform: 'rotate(7deg)',
+        }}>
+          <div style={{
+            width: '100%', height: '100%',
+            backgroundImage: "url('https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80')",
+            backgroundSize: 'cover', backgroundPosition: 'center',
+            filter: 'sepia(0.2) saturate(0.82)',
+          }}/>
+        </div>
+      </div>
+
+      {/* 헤드라인 블록 — 카드 하단 중앙 */}
+      <div style={{ position: 'absolute', left: 56, right: 56, bottom: 130 }}>
+        <div style={{
+          fontSize: 96, fontWeight: 700, lineHeight: 0.96,
+          letterSpacing: '-0.04em', color: INK,
+        }}>
+          폰 없이 떠나는<br/>
+          <span style={{ color: ACCENT, fontStyle: 'italic', fontWeight: 600 }}>하루.</span>
+        </div>
+        <div style={{
+          marginTop: 26, fontSize: 22, lineHeight: 1.55,
+          fontWeight: 400, color: SUB, maxWidth: 660,
+        }}>
+          지도앱 대신 종이지도, 인스타 대신 필름카메라.<br/>
+          요즘 가장 사치스러운 여행을 시작해요.
+        </div>
+      </div>
+
+      {/* SWIPE 힌트 */}
+      <div style={{
+        position: 'absolute', bottom: 56, left: 56,
+        fontSize: 14, letterSpacing: '0.2em', fontWeight: 600, color: INK,
+      }}>SWIPE →</div>
+
+      <Pager n={1}/>
+      <Grain id="grain1"/>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   CARD 2 — Pain Point
+   질문 카피 → 이미지(카페/여행지 폰 장면) → 해결 제안
+══════════════════════════════════════ */
+function Card2() {
+  return (
+    <div style={{ width: 1080, height: 1350, position: 'relative', background: BG, overflow: 'hidden', fontFamily: "'Pretendard', sans-serif", color: INK }}>
+      <Header/>
+
+      {/* 질문 카피 */}
+      <div style={{ position: 'absolute', top: 188, left: 56, right: 56 }}>
+        <div style={{
+          fontSize: 12, letterSpacing: '0.3em', fontWeight: 600,
+          color: ACCENT, marginBottom: 22, fontFamily: 'monospace',
+        }}>— REALITY CHECK</div>
+        <div style={{
+          fontSize: 64, fontWeight: 700, lineHeight: 1.15,
+          letterSpacing: '-0.025em', color: INK,
+        }}>
+          혹시 여행 가서도<br/>
+          맨날{' '}
+          <span style={{
+            color: ACCENT,
+            background: `linear-gradient(transparent 65%, rgba(161,58,31,0.18) 65%)`,
+          }}>폰만 보고</span>{' '}있나요?
+        </div>
+      </div>
+
+      {/* 이미지 — 카페/여행지에서 폰 보는 장면 */}
+      <div style={{
+        position: 'absolute', top: 510, left: 56, right: 56, height: 480,
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          width: '100%', height: '100%',
+          backgroundImage: "url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=80')",
+          backgroundSize: 'cover', backgroundPosition: 'center top',
+          filter: 'sepia(0.18) saturate(0.85) brightness(0.88)',
+        }}/>
+        {/* 하단 그라디언트 오버레이 */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(180deg, rgba(26,24,20,0) 50%, rgba(26,24,20,0.78) 100%)',
+        }}/>
+        {/* 손글씨 인용문 */}
+        <div style={{
+          position: 'absolute', bottom: 28, left: 32, right: 32,
+          color: '#fff', fontSize: 28, lineHeight: 1.45,
+          fontFamily: "'Caveat', cursive",
+        }}>"좋은 곳 갔는데, 결국 인스타만 보다 왔어요."</div>
+      </div>
+
+      {/* 해결 제안 */}
+      <div style={{ position: 'absolute', bottom: 120, left: 56, right: 56 }}>
+        <div style={{
+          paddingTop: 28,
+          borderTop: `1.5px solid ${INK}`,
+          fontSize: 30, fontWeight: 700, lineHeight: 1.4,
+          letterSpacing: '-0.01em', color: INK,
+        }}>
+          폰은 저희에게 맡겨두시고,<br/>
+          <span style={{ color: ACCENT, fontStyle: 'italic', fontWeight: 600 }}>
+            진짜 여행에 집중해보세요.
+          </span>
+        </div>
+      </div>
+
+      <Pager n={2}/>
+      <Grain id="grain2"/>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   CARD 3 — The Kit
+   제목 → 2×2 그리드 (이미지 + 텍스트)
+══════════════════════════════════════ */
+function Card3() {
+  const items = [
+    {
+      n: '01',
+      name: '종이 지도 + 나침반',
+      desc: '조금 헤매도 결국 찾아가게 돼요.',
+      img: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=900&q=80',
+    },
+    {
+      n: '02',
+      name: '일회용 필름 카메라',
+      desc: '27컷, 특별한 순간만 골라 찍어요.',
+      img: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=900&q=80',
+    },
+    {
+      n: '03',
+      name: '비상연락 휴대폰',
+      desc: '인터넷 없이 전화·문자만 가능해요.',
+      img: 'https://images.unsplash.com/photo-1574920162043-b872873f19bc?auto=format&fit=crop&w=900&q=80',
+    },
+    {
+      n: '04',
+      name: '지역 설명서',
+      desc: '직접 다녀온 진짜 좋은 곳들만.',
+      img: 'https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=900&q=80',
+    },
+  ];
+
+  return (
+    <div style={{ width: 1080, height: 1350, position: 'relative', background: BG, overflow: 'hidden', fontFamily: "'Pretendard', sans-serif", color: INK }}>
+      <Header/>
+
+      {/* 제목 */}
+      <div style={{ position: 'absolute', top: 188, left: 56, right: 56 }}>
+        <div style={{
+          fontSize: 12, letterSpacing: '0.3em', fontWeight: 600,
+          color: ACCENT, marginBottom: 22, fontFamily: 'monospace',
+        }}>— WHAT YOU GET</div>
+        <div style={{
+          fontSize: 80, fontWeight: 700, lineHeight: 1.0,
+          letterSpacing: '-0.035em', color: INK,
+        }}>
+          폰 대신,<br/>
+          <span style={{ fontStyle: 'italic', color: ACCENT, fontWeight: 600 }}>이걸 드려요.</span>
+        </div>
+      </div>
+
+      {/* 2×2 그리드 */}
+      <div style={{
+        position: 'absolute',
+        top: 510, left: 56, right: 56, bottom: 100,
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gridTemplateRows: '1fr 1fr',
+        gap: 16,
+      }}>
+        {items.map(it => (
+          <div key={it.n} style={{
+            display: 'flex', flexDirection: 'column',
+            background: '#fff',
+            boxShadow: '0 10px 24px rgba(26,24,20,0.10)',
+            overflow: 'hidden',
+          }}>
+            {/* 이미지 — flex 고정 높이 */}
+            <div style={{
+              flexShrink: 0,
+              height: 220,
+              backgroundImage: `url('${it.img}')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'sepia(0.12) saturate(0.88)',
+            }}/>
+            {/* 텍스트 */}
+            <div style={{ flex: 1, padding: '18px 20px 20px' }}>
+              <div style={{
+                fontSize: 11, letterSpacing: '0.2em', color: ACCENT,
+                fontFamily: 'monospace', fontWeight: 700, marginBottom: 8,
+              }}>{it.n}</div>
+              <div style={{
+                fontSize: 22, fontWeight: 700, lineHeight: 1.2,
+                letterSpacing: '-0.01em', marginBottom: 8, color: INK,
+              }}>{it.name}</div>
+              <div style={{ fontSize: 16, color: SUB, lineHeight: 1.55 }}>{it.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Pager n={3}/>
+      <Grain id="grain3"/>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   CARD 4 — How It Works + CTA
+   제목 → 3단계 스텝 → 손글씨 노트 → 신청 CTA
+══════════════════════════════════════ */
+function Card4() {
+  const steps = [
+    { n: '01', title: '폰을 맡겨요', desc: '잠금 파우치에 넣고 열쇠는 직접 보관해요.' },
+    { n: '02', title: '키트를 받아요', desc: '종이지도, 나침반, 비상용 휴대폰.' },
+    { n: '03', title: '그냥 떠나요', desc: '발길 닿는 대로. 길을 잃어도 괜찮아요.' },
+  ];
+
+  return (
+    <div style={{ width: 1080, height: 1350, position: 'relative', background: BG, overflow: 'hidden', fontFamily: "'Pretendard', sans-serif", color: INK }}>
+      <Header/>
+
+      {/* 제목 */}
+      <div style={{ position: 'absolute', top: 188, left: 56, right: 56 }}>
+        <div style={{
+          fontSize: 12, letterSpacing: '0.3em', fontWeight: 600,
+          color: ACCENT, marginBottom: 22, fontFamily: 'monospace',
+        }}>— HOW IT WORKS</div>
+        <div style={{
+          fontSize: 78, fontWeight: 700, lineHeight: 1.0,
+          letterSpacing: '-0.035em', color: INK,
+        }}>
+          맡기고, 받고,<br/>
+          <span style={{ fontStyle: 'italic', color: ACCENT }}>떠나기.</span>
+        </div>
+      </div>
+
+      {/* 3단계 스텝 */}
+      <div style={{ position: 'absolute', top: 490, left: 56, right: 56 }}>
+        {steps.map((s, i) => (
+          <div key={s.n} style={{
+            display: 'grid',
+            gridTemplateColumns: '80px 1fr 36px',
+            gap: 24, alignItems: 'center',
+            padding: '26px 0',
+            borderTop: '1px solid rgba(26,24,20,0.2)',
+            ...(i === steps.length - 1 ? { borderBottom: '1px solid rgba(26,24,20,0.2)' } : {}),
+          }}>
+            <div style={{
+              fontSize: 46, fontWeight: 700, color: INK, lineHeight: 1,
+              fontFamily: 'monospace', letterSpacing: '-0.02em',
+            }}>{s.n}</div>
+            <div>
+              <div style={{ fontSize: 28, fontWeight: 700, marginBottom: 6, letterSpacing: '-0.01em' }}>
+                {s.title}
+              </div>
+              <div style={{ fontSize: 18, color: SUB, lineHeight: 1.55 }}>{s.desc}</div>
+            </div>
+            <div style={{ fontSize: 28, color: SUB, textAlign: 'right' }}>→</div>
+          </div>
+        ))}
+      </div>
+
+      {/* 손글씨 노트 */}
+      <div style={{
+        position: 'absolute', top: 870, left: 60,
+        fontSize: 24, color: SUB,
+        fontFamily: "'Caveat', cursive",
+        transform: 'rotate(-1.5deg)',
+        opacity: 0.85,
+      }}>
+        * 반일 코스부터 하루 코스까지 선택 가능해요 :)
+      </div>
+
+      {/* CTA 박스 */}
+      <div style={{
+        position: 'absolute', bottom: 120, left: 56, right: 56,
+        background: INK, color: '#fff',
+        padding: '28px 32px',
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      }}>
+        <div>
+          <div style={{
+            fontSize: 11, letterSpacing: '0.25em',
+            color: 'rgba(255,255,255,0.6)',
+            marginBottom: 8, fontFamily: 'monospace',
+          }}>APPLY NOW · BETA</div>
+          <div style={{ fontSize: 26, fontWeight: 700, letterSpacing: '-0.01em' }}>
+            golocal-kr.web.app
+          </div>
+        </div>
+        <a href="https://golocal-kr.web.app" style={{
+          background: '#fff', color: INK,
+          padding: '16px 26px',
+          fontSize: 17, fontWeight: 700, letterSpacing: '0.06em',
+          textDecoration: 'none', display: 'block',
+        }}>신청하기 →</a>
+      </div>
+
+      <Pager n={4}/>
+      <Grain id="grain4"/>
+    </div>
+  );
+}
+
+/* ── 마운트 ── */
+ReactDOM.createRoot(document.getElementById('c1')).render(<Card1/>);
+ReactDOM.createRoot(document.getElementById('c2')).render(<Card2/>);
+ReactDOM.createRoot(document.getElementById('c3')).render(<Card3/>);
+ReactDOM.createRoot(document.getElementById('c4')).render(<Card4/>);
+
+</script>
+</body>
+</html>
